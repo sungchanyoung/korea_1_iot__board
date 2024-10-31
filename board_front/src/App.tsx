@@ -1,11 +1,17 @@
+
 import React from 'react';
-import logo from './logo.svg';
+
 import './App.css';
-import A_useState from './react-study/A_useState';
 import UseState from "./react-study/A_useState";
 import { Routes ,Route} from 'react-router-dom';
 import Container from './layouts/Container';
 import { AUTH_PATH, BOARD_DETAIL_PATH, BOARD_UPDATE_PATH, BOARD_WRITE_PATH, MAIN_PATH, REACT_STUDY_PATH, USER_PATH } from './constants';
+import Authentication from './views/Authentication';
+
+import User from './views/User';
+import Board from './views/Board';
+import Main from './views/Main';
+import ReactStudy from './views/ReactStudy';
 function App() {
   return (
     
@@ -33,8 +39,8 @@ function App() {
         <Route path = {USER_PATH} element ={<User/>} />
 
         {/* 리액트 학습 */}
-        <Route path = {REACT_STUDY_PATH} element ={<UseState/>} />
-
+        <Route path = {REACT_STUDY_PATH} element ={<ReactStudy/>} />
+      
       </Route>
     </Routes>
   
@@ -42,4 +48,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 

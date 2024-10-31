@@ -3,35 +3,89 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../../../stores/user.store';
 
-interface Credentials{
+// Interface : 
+//사용자 입력 정보의 상태를 나타냄 
+//credential:자격증 ,신원정보
+interface Credentials{ 
   email: string; 
   password : string; 
 
 }
+
+//로그인후 전역 상태에 저장될 사용자 데이터를 나타냄 
+interface UseAuthData{
+  id: number; 
+  email: string;
+}
+
+//서버에서 반한하는 로그인 응닫데이터 형태를 나타냄 
 interface SignInResponseDto {
   token :string; 
-  user:Credentials; 
+  user: UseAuthData; 
   exprTime: number;  
-
 }
+
+// 로그인 컴포넌트 : Main Component 
 export default function SignIn() {
-  const [user, setUser] = useState<Credentials>({
-    email:"",
-    password:'',
-  })
+  // State모음 
+  //로그인 된 사용자 정보를  컴포넌트 내에서  관리하는 state 
+  // const [user, setUser] = useState<Credentials>({
+  //   email:"",
+  //   password:'',
+  // });
+  
+
+  //State :로그인 입력 필드 상태 
   const[credentials,setCredentials] =useState<Credentials>({
   email: '',
   password: ''
 });
-  
+
+
+// state: 오류 메시지를 저장할 상태 
 const[error, setError] =useState<string>(''); 
-//셋 쿠키 만 사용하고 싶으며ㅛㄴ ,setcookie
+
+//state:ReactCookie훅을 사용하여 쿠키를 설정하는 함수 
 const [,setCookies] = useCookies(['token']); 
 
-
+//state :setUserStore()훅을 사용하여 사용자 정보를 전역 상태에 저장 
+const{login} =useAuthStore();
+// Hooks: 기능 정의 
+// useNavigate 훅 : 페이지 전환 
 const navigate = useNavigate(); 
 
+
+//  function:  로그인 성공시 실행 되는 함수 
+//   SignInSuccessResponse
+//  서버 응답이 성공일 경우 토큰과 사용자 정보를 저장 & 페이지 이동 
+const SignInSuccessResponse =(data :SignInResponseDto) => {
+  if(data){
+    const {token,exprTime,user} = data; 
+    setToken(token,exprTime); 
+    login({
+      id: user.id,
+      name: user.email
+    }); 
+    navigate('/'); 
+  }else{
+    setError('로그인 실패: 인증 정보룰 확인해주세요')
+  }
+}
+
+//인증 토큰을 저장하는 함수 
+const setToken =(token : string ,exprTime : number) =>{
+  const expires = new Date(Date.now()+exprTime); 
+  setCookies('token',token,{
+    path: '/',
+    expires
+  });
+
+}
+
+//*Event Handler//
+//이벤트 핸들러 : 로그인 입력 필드 입력 이벤트 처리 함수 
 const handleInputChange =(e:React.ChangeEvent<HTMLInputElement>)=>{
   const element =e.target; 
 
@@ -40,13 +94,15 @@ const handleInputChange =(e:React.ChangeEvent<HTMLInputElement>)=>{
     [element.name]:element.value
   })
 }
+  //로그인 버튼 클릭 이벤트 처리 함수 
   const handleSignIn = async() =>{
     const {email, password} =credentials;
     //이메일 O +passwordO : fasle
     //이메일 O +passwordX : true
     //이메일 X +passwordO : true
     //이메일 X +passwordX : true
-    
+    //403 Forbidden :서버 오류 -> 요청 거부 
+
     
     if(!email || !password){
       //이메일
@@ -54,35 +110,20 @@ const handleInputChange =(e:React.ChangeEvent<HTMLInputElement>)=>{
       return; 
     }
     try {
-      const  response = await axios.post(`http://localhost:8080/api/v1/auth/signIn/`,credentials)
-      handleSignInSuccess(response.data); 
+      const  response = await axios.post(`http://localhost:8080/api/v1/auth/signIn`,credentials )
       if(response.data){
-        handleSignInSuccess(response.data.data);
+        handleInputChange(response.data.data);
       }
 
     } catch  {
       setError("로그인 중 문제가 발생했습니다")
     }
-  }; 
-//  서버 응답이 성공일 경우 토큰과 상요자 정보를 저장 & 페이지 이동 
-    const handleSignInSuccess =(data :SignInResponseDto) => {
-        if(data){
-          const {token,exprTime,user} = data; 
-          setToken(token,exprTime); 
-          setUser(user); 
-          navigate('/'); 
-        }else{
-          setError('로그인 실패: 인증 정보룰 확인해주세요')
-        }
-    }
-    const setToken =(token : string ,exprTime : number) =>{
-      const expires = new Date(Date.now()+exprTime); 
-      setCookies('token',token,{
-        path: '/',
-        expires
-      });
+  };
+  const handleSignInSuccess = (data: SignInResponseDto) => {
 
-    }
+  }
+   
+//render:로그인 컴포넌트 랜더링 // 
   return (
   <Card variant='outlined' sx={{
     width: 360, 
@@ -91,8 +132,10 @@ const handleInputChange =(e:React.ChangeEvent<HTMLInputElement>)=>{
   }}
   > 
   <CardContent>
+    {/* 자식 컴포넌트 한테 겂을 대입 시킬수 없다 */}
     <Typography variant='h5' mb={2}>
-      로그인
+      로그인 
+      </Typography>
     <TextField
         label ="이메일"
         type='email'
@@ -121,7 +164,6 @@ const handleInputChange =(e:React.ChangeEvent<HTMLInputElement>)=>{
         //값이 존재 하지 않으면 false로 변환 
         
 />
-</Typography>
     {error && (
       <Typography color='error' mt={2}>
         {error}
