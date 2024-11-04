@@ -20,7 +20,7 @@ import React, { useEffect, useState } from 'react'
 
 const DOMAIN = 'http://localhost:8080';
 const MENU_API = 'api/v1/menus';
-
+// Zustand를 사용해서 메뉴 데이터를 피터링 하는 기능 구현하는 예시 
 interface GetMenuCategoryResponseDto {
   name: string;
   description: string;
@@ -39,10 +39,11 @@ export default function C_StateEffect() {
   const [category, setCategory] = useState<string>('');
   const [results, setResults] = useState<GetMenuCategoryResponseDto[]>([]);
   
+  //카테고리 핸들러 변경이다 -->입력필드에서 값을 변경하면 category상태를 업데이트해 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCategory(e.target.value);
   }
-
+  //데이터를 가져오기 : 주어진 데이터를 가져와서 result상태를 업데이트 해
   const fetchMenuData = async (category: string) => {
     if (category.trim()) {
       try {
@@ -84,6 +85,7 @@ export default function C_StateEffect() {
     }
   }
 
+  //쿼리나 카테고리가 변경 될때 마다 데이터 가져와서 상태를 업데이트 한다 
   useEffect(() => {
     fetchMenuData(category);
   }, [category]);

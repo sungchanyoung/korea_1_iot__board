@@ -3,7 +3,7 @@ import useCountStore from '../stores/count.store';
 import { text } from 'stream/consumers';
 import useCartStoreType from '../stores/cart.store';
 /*
-  ! zustand: 전역 상태 관리
+  ! zustand: 전역 상태 관리- 상태 와 액션 
   1.개념: 상태를 의미- React에서 사용되는 전역 상태 관리 라이브러리 중 하나 
   
   2.장점 :간결성, 구독 최적화 , 유연성, 접근성 
@@ -39,10 +39,10 @@ export default function E_zustand() {
 
       <h2>Zustand : Cart Example</h2>
       <ul>
-        {
+        { //타입 추론tS의 기능 
           items.map((item)=> (
             <li key={item.id} style={{marginBottom:'10px'}}>
-                {item.name} -${item.price} X {item.quantity}
+                {item.name} - ${item.price} X {item.quantity}
               <button onClick={() => removeItem(item.id)}
                 style={{marginLeft:"10px", padding:"3px 5px"}}>
                 삭제

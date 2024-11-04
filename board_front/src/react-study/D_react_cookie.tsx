@@ -16,11 +16,11 @@ const [cookie,setcookie, removecookie]
  = useCookie(['쿠키 이름 '])
 
  cf) useCookies 훅에 전달되는 배열(인자 값)
- :배열로써 관리하고자 하는 쿠키의 이름을  전달 
+ :배열로써 관리하고자 하는 쿠키의 이름을 전달 
  : 사용자가 현재 컴포넌트에서 접근하려는 쿠키이름을 지정하는 역할 
- : 쿠키에 대한 접근 : 'cookie.쿠키이름'을 통해 쿠키값을 반환 
+ : 쿠키에 대한 접근 : 'cookie.쿠키이름(user)'을 통해 쿠키값을 반환 
 
- //react-cookie 옵션 설정  선택 
+ //react-cookie 옵션 설정 선택 
  path : 쿠키가 유효한 경로를 지정 
  - 주로'/'를 설정하여 모든 경로에서 유효 하도록 쿠키를 설정 
  expires : 쿠키의 만료 시간을 설정
@@ -42,7 +42,7 @@ export default function D_react_cookie() {
   const handleClickCookie =()=>  {
    //setCookie('쿠키이름',쿠키값,옵션 설정- 선택 )
    setCookie('user','이승아',{
-    path:'/',
+    path:'/',   //
     //new Date(): 새로운 날짜 지정 
     // -Date.now() : 현재 날짜를 반환 -밀리초 단위 
     //1000* 60 *60 *24 =1일 
@@ -59,7 +59,7 @@ export default function D_react_cookie() {
     <div>
       <button onClick={handleClickCookie}>쿠키 설정 버튼</button>
       <button onClick={handleRemoveCookie}>쿠키 삭제 버튼</button>
-
+{/* 쿠키에 대한 접근  */}
       User Cookie: {cookies.user}
     </div>
   )

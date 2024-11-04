@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 
 /*
-! useEffect
+! useEffect -인존성 배열부터 읽어야 합니다 
 1. 함수형 컴포넌트
 2. 렌더링될 때와 특정 상태가 변경될 때 실행되는 부수효과 처리
 3. Hook
@@ -38,6 +38,8 @@ export default function B_useEffect() {
   
   const [count, setCount] = useState<number>(0);
   const [isRunning, setIsRunning] = useState<boolean>(false);
+  const[ toggleData, setToggleData] =useState<boolean>(false);
+  console.log(toggleData)
 
   useEffect(() => {
     // 타이머 효과를 구현
@@ -54,6 +56,15 @@ export default function B_useEffect() {
   const handleButtonClick = () => {
     setIsRunning(prevIsRunning => !prevIsRunning);
   }
+  const handletoggleButtonClick =() =>{
+    setToggleData (prevData => !prevData)
+  }
+  //첫번째 데이터 전달 -부수효과- 통신 요청 , 데이터 변경 시 동작시 동작될 효과 
+  //두번째 인자 (deps) : 의존성 배열  -빈 배열일 경우 마운팅 시에만 효과 발생
+  // - 배열에 요소가 있는경우 해당 값을
+  useEffect(() => { //인자값 두가지를 전달 받습니다 1필수 값 하나 최대 두개의 인자 값을 받는다 
+    console.log("화면 출력 ")
+  },[toggleData]);
 
   return (
     <div>
@@ -62,6 +73,15 @@ export default function B_useEffect() {
         {/* 실행 중이면 'Stop'버튼, 실행 중이 아니면 'Start'버튼 */}
         {isRunning ? 'Stop' : 'Start'}
       </button>
+      <div 
+        style={{backgroundColor : 'pink',
+          padding :'20px'
+        }}
+      >
+        <button
+          onClick={handletoggleButtonClick}
+        > 상태 변화</button>
+      </div>
     </div>
   )
 }

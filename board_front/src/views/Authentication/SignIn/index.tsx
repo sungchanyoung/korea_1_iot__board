@@ -60,7 +60,7 @@ const navigate = useNavigate();
 //  function:  로그인 성공시 실행 되는 함수 
 //   SignInSuccessResponse
 //  서버 응답이 성공일 경우 토큰과 사용자 정보를 저장 & 페이지 이동 
-const SignInSuccessResponse =(data :SignInResponseDto) => {
+const signInSuccessResponse =(data :SignInResponseDto) => {
   if(data){
     const {token,exprTime,user} = data; 
     setToken(token,exprTime); 
@@ -95,6 +95,7 @@ const handleInputChange =(e:React.ChangeEvent<HTMLInputElement>)=>{
   })
 }
   //로그인 버튼 클릭 이벤트 처리 함수 
+  //
   const handleSignIn = async() =>{
     const {email, password} =credentials;
     //이메일 O +passwordO : fasle
@@ -109,10 +110,12 @@ const handleInputChange =(e:React.ChangeEvent<HTMLInputElement>)=>{
       setError('아이딛와 비밀번호를 입력해주세요'); 
       return; 
     }
-    try {
+    try {//데이터 다올때 까지 기다림  - credentials가지고 가라 
       const  response = await axios.post(`http://localhost:8080/api/v1/auth/signIn`,credentials )
+
       if(response.data){
-        handleInputChange(response.data.data);
+        //user token expirtime 반환 -> 이부분을 이해 되는지 ?? 
+        signInSuccessResponse(response.data.data);
       }
 
     } catch  {
