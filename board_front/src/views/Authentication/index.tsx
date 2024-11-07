@@ -16,7 +16,8 @@ export default function Authentication() {
   }
   return (
     <Box sx={{width:'100%', mt: 4}}>
-      {/* 현재 view 상태에 따라 로그인 또는 회원가입제목 표시 */}
+      {/* 현재 view 상태에 따라 로그인 또는 회원가입제목 표시 
+      Typography: 글자를 배열하고 구성하고 디자인 하는것*/}
       <Typography variant='h4' textAlign='center'>
         {view ==='sign-in' ? '로그인': '회원가입'}
       </Typography>

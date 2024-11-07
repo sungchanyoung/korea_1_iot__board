@@ -5,6 +5,8 @@ import StateEffect from '../../react-study/C_StateEffect'
 import ReactCookie from '../../react-study/D_react_cookie'
 import Zustand from '../../react-study/E_zustand'
 import Zustand_render from '../../react-study/E_zustand_render'
+import Emotion from '../../react-study/G_Emotion'
+import Emotion2 from '../../react-study/H_Emotion2'
 
 export default function index() {
   return (
@@ -24,7 +26,10 @@ export default function index() {
       <h2>zustand : 전역 상태관리 </h2>
       <Zustand/>
       <Zustand_render/>
-      
+
+      <h2>Emotion스타일 라이브러리 </h2>
+      <Emotion/>
+      <Emotion2/>
     </>
   )
 }

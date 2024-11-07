@@ -5,9 +5,13 @@
 
 export const MAIN_PATH ="/";
 export const AUTH_PATH ="/auth";
+export const BOARD_LIST_PATH ='/board';
 export const BOARD_DETAIL_PATH = (boardNumber : number | String) => `/board/detail /${boardNumber}`
+
 export const BOARD_WRITE_PATH ="/board/write";
 export const BOARD_UPDATE_PATH =  (boardNumber : number | String) => `/board/update /${boardNumber}`
+
 export const USER_PATH ="/user";
+
 export const REACT_STUDY_PATH ="/react-study";
 //outlet:

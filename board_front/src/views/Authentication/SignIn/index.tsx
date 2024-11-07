@@ -60,15 +60,16 @@ const navigate = useNavigate();
 //  function:  로그인 성공시 실행 되는 함수 
 //   SignInSuccessResponse
 //  서버 응답이 성공일 경우 토큰과 사용자 정보를 저장 & 페이지 이동 
+//성공적안 록구안 : 로그인 응답 데이터를 받아서  토큰을 설정하고 사용자 정보를 설정한 후, 홈페이지로 이동시킴 
 const signInSuccessResponse =(data :SignInResponseDto) => {
   if(data){
     const {token,exprTime,user} = data; 
-    setToken(token,exprTime); 
+    setToken(token,exprTime); //로그인 토큰과  만료 시간 설정해  -> 보통 인증을 위해 사용해
     login({
       id: user.id,
       name: user.email
     }); 
-    navigate('/'); 
+    navigate('/board'); 
   }else{
     setError('로그인 실패: 인증 정보룰 확인해주세요')
   }
@@ -78,9 +79,10 @@ const signInSuccessResponse =(data :SignInResponseDto) => {
 const setToken =(token : string ,exprTime : number) =>{
   const expires = new Date(Date.now()+exprTime); 
   setCookies('token',token,{
-    path: '/',
+    path: '/', // '/'-홈화면
     expires
   });
+  
 
 }
 
@@ -112,9 +114,11 @@ const handleInputChange =(e:React.ChangeEvent<HTMLInputElement>)=>{
     }
     try {//데이터 다올때 까지 기다림  - credentials가지고 가라 
       const  response = await axios.post(`http://localhost:8080/api/v1/auth/signIn`,credentials )
-
-      if(response.data){
-        //user token expirtime 반환 -> 이부분을 이해 되는지 ?? 
+      //response 에는 서버에 응답 전체가 저장된다 
+      if(response.data){ 
+        //response.data -로그인 응답 데이터 포함 됨 -credentials 포함 되지 않아 
+        //동작원리
+        
         signInSuccessResponse(response.data.data);
       }
 
