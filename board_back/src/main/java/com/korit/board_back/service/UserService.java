@@ -1,0 +1,37 @@
+package com.korit.board_back.service;
+
+import com.korit.board_back.dto.ResponseDto;
+import com.korit.board_back.dto.user.reponse.UserResponseDto;
+import com.korit.board_back.dto.user.request.UpdateUserRequestDto;
+
+/*
+ *UserService
+ * - 사용자 정보 조회 수정 삭제와 관련된 메서드 정의
+ * -
+ *  */
+
+public interface UserService {
+    /*
+    사용자 정보를 조회하는 메서드
+    @param - userId 현재 인증 사용자의 Id
+    @return - ResponseDto<UserResponseDto> 사용자 정보를 담은 응답 객체
+
+     */
+    ResponseDto<UserResponseDto> getUserInfo(String userId);
+
+    /*
+    사용자 정보를 수정하는 메서드
+    @param - userId 현재 인증 사용자의 Id
+           - dto 사용자 정보 업데이트에 필요한 데이터를 담은 객체
+    @return - ResponseDto<UserResponseDto> 사용자 정보를 담은 응답 객체
+         */
+    ResponseDto<UserResponseDto> updateUser(String userId, UpdateUserRequestDto dto);
+   /*
+    사용자 정보를 삭제하는 메서드
+    @param - userId 현재 인증 사용자의 Id
+    @return - ResponseDto<UserResponseDto> 응답 결과만을 담은 객체
+     */
+    ResponseDto<Void> deleteUser(String userId);
+
+
+}

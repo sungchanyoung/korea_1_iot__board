@@ -24,6 +24,8 @@ public class JwtProvider {
     @Value("${jwt.expiration}")
     private  int jwtExpirationMs ;
 
+
+
     public  int getExpirationMs(){
         return  jwtExpirationMs;
     }
@@ -91,4 +93,7 @@ public class JwtProvider {
     }
 
 
+    public int getExpiration() {
+        return  jwtExpirationMs;
+    }
 }

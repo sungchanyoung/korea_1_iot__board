@@ -12,7 +12,7 @@ import java.util.*;
 @Entity
 @Table(name = "articles")
 @Data
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Article {
