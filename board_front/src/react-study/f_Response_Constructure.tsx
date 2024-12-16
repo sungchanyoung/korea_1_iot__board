@@ -26,9 +26,9 @@ import SignIn from '../views/Authentication/SignIn';
  * Response 구조 
  * :axios가 http응답을 처리한 후 반환하는 객체 
  * -response.status : http상태 코드(200,204...)
- * -response.status.Text:  상태 텍스트('oK', 'not found'...)
- * - response.headers:응답 헤더 정보 
- * - response.config응답 설정 정보 
+ * -response.status.Text: 상태 텍스트('oK', 'not found'...)
+ * - response.headers: 응답 헤더 정보 
+ * - response.config 응답 설정 정보 
  * - response.data : 서버에서 전송한 응답 데이터 
  * 
  * 2)response data 구조 
